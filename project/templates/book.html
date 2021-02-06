@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="title">Books For Sale</h3>
+<div class="column is-4 is-offset-5">
+    <form action="/SelectBook">
+        <div class="control">
+            <div class="select">
+                <select name="selected_major">
+                    <option value="0">ALL</option>
+                    {% for major in category %}
+                    <option value="{{major[0]}}">{{major[1]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="button is-info">Search</button>
+        </div>
+    </form>
+</div>
+<div >
+    <div class="box" >
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-success">
+                {{ messages[0] }}. <a href="{{ url_for('main.sellBook') }}">Click here</a> to add another book.
+            </div>
+        {% endif %}
+        {% endwith %}
+        <table class="table" id="bookTable">
+            <tr>
+                <th>Book Name</th>
+                <th>Details</th>
+                <th>price</th>
+                <th>Date of Publication</th>
+                <th>Seller's Name</th>
+                <th>Seller's Phone</th>
+                <th>Seller's Email</th>
+                <th>Major</th>
+            </tr>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }} </td>
+                <td>{{ book.details }}</td>
+                <td>${{ book.price }} </td>
+                <td>{{ book.pub_date }} </td> 
+                {% for user in users %}
+                    {% if user.id == book.seller_id %}
+                        <td>{{ user.name }} </td>
+                        <td>{{ user.telephone }} </td>
+                        <td>{{ user.email }} </td>  
+                    {% endif %}
+                {% endfor %}
+                {% for major in category %}
+                    {% if major.id == book.category_id %}
+                        <td>{{ major.name }} </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

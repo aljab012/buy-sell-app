@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Add an Event</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}. Go to <a href="{{ url_for('main.event') }}">Group</a> page.
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/event">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="title" placeholder="Event's Title" autofocus="">
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="details" placeholder="Details about The Event" autofocus="">
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="time" placeholder="Event's Time" autofocus="">
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="place" placeholder="Event's Place" autofocus="">
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <select class="input is-large" name="category_id" >
+                        <option value="0">Event's category</option>
+                        {% for major in category %}
+                        <option value="{{major[0]}}">{{major[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">POST</button>
+        </form>
+    </div>
+</div>
+</br> </br> </br> </br>
+<h3 class="title"> Events Posted</h3>
+<div class="column is-4 is-offset-5">
+    <form action="/SelectEvent">
+        <div class="control">
+            <div class="select">
+                <select name="selected_event">
+                    <option value="0">ALL</option>
+                    {% for major in category %}
+                    <option value="{{major[0]}}">{{major[1]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="button is-info">Search</button>
+        </div>
+        
+    </form>
+</div>
+
+<div >
+    <div class="box">
+        <table class="table" id="bookTable">
+            <tr>
+                <th>event name</th>
+                <th>Details</th>
+                <th>Place</th>
+                <th>Time</th>
+                <th>Category</th>
+                <th>User's Name</th>
+                <th>User's Phone</th>
+                <th>User's Email</th>
+            </tr>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.event_name }} </td>
+                <td>{{ event.details }}</td>
+                <td>{{ event.place }} </td>
+                <td>{{ event.time }} </td> 
+
+                {% for major in category %}
+                    {% if major.id == event.category_id %}
+                        <td>{{ major.name }} </td>
+                    {% endif %}
+                {% endfor %}
+
+                {% for user in users %}
+                    {% if user.id == event.owner_id %}
+                        <td>{{ user.name }} </td>
+                        <td>{{ user.telephone }} </td>
+                        <td>{{ user.email }} </td>  
+                    {% endif %}
+                {% endfor %}
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

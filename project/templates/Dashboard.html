@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3 class="title"> Users Signed Up To This Website</h3>
+
+  <div >
+      <div class="box">
+          <table class="table" id="bookTable">
+              <tr>
+                  <th>User's Name</th>
+                  <th>User's Email</th>
+                  <th>User's Phone Number</th>
+              </tr>
+              {% for user in users %}
+              <tr>
+                  <td>{{ user.name }} </td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.telephone }} </td>
+              </tr>
+              {% endfor %}
+          </table>
+      </div>
+  </div>
+  
+{% endblock %}

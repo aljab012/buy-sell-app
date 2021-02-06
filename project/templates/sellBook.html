@@ -1,0 +1,52 @@
+<!-- templates/profile.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Add a Book</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}. Go to <a href="{{ url_for('main.book') }}">book signup</a>.
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/sellBook">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="title" placeholder="book's title" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="details" placeholder="details about the book" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="number" step="0.01" name="price" placeholder="price">
+                </div>
+            </div>
+
+            
+            <div class="field">
+                <div class="control">
+                    <select class="input is-large" name="category_id" >
+                        <option value="0">book's category</option>
+                        {% for major in category %}
+                        <option value="{{major[0]}}">{{major[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button class="button is-block is-info is-large is-fullwidth">POST</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

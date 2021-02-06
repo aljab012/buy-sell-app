@@ -1,0 +1,90 @@
+<!-- templates/profile.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="box" >
+  <table class=" table table-hover " id="infoTable">
+    <tr>
+      <td>Name :</td>
+        <td>{{ user.name }} </td>
+    </tr>
+    <tr>
+      <td>Email :</td>
+        <td>{{ user.email }} </td>
+    </tr>
+    <tr>
+      <td>Phone :</td>
+        <td>{{ user.telephone }} </td>
+    </tr>
+</table>
+</div>
+<br>
+  <div >
+    <h3 class="title">Your books</h3>
+      <div class="box" >
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <div class="notification is-success">
+                  {{ messages[0] }}. Go to <a href="{{ url_for('main.sellBook') }}">click here</a> to add another book.
+              </div>
+          {% endif %}
+          {% endwith %}
+          <table class="table" id="bookTable">
+              <tr>
+                  <th>Book Name</th>
+                  <th>Details</th>
+                  <th>price</th>
+                  <th>Date of Publication</th>
+                  <th>Actions</th>
+              </tr>
+              {% for book in books %}
+              <tr>
+                  <td>{{ book.title }} </td>
+                  <td>{{ book.details }}</td>
+                  <td>${{ book.price }} </td>
+                  <td>{{ book.pub_date }} </td> 
+                  <td>   
+                    <a href="/remove_book/{{book.id}}" class="btn btn-outline-danger">Delete</a>
+              </tr>
+              {% endfor %}
+          </table>
+
+      </div>
+      <br>
+      <div >
+        <h3 class="title">Your events</h3>
+
+        <div class="box" >
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-success">
+                    {{ messages[0] }}. Go to <a href="{{ url_for('main.sellBook') }}">click here</a> to add another book.
+                </div>
+            {% endif %}
+            {% endwith %}
+            <table class="table" id="bookTable">
+              <tr>
+                  <th>Event name</th>
+                  <th>Details</th>
+                  <th>Time</th>
+                  <th>Place</th>
+                  <th>Actions</th>
+              </tr>
+              {% for event in events %}
+              <tr>
+                  <td>{{ event.event_name }} </td>
+                  <td>{{ event.details }}</td>
+                  <td>${{ event.time }} </td>
+                  <td>{{ event.place }} </td> 
+                  <td>   
+                    <a href="/remove_event/{{event.id}}" class="btn btn-outline-danger">Delete</a>
+              </tr>
+              {% endfor %}
+          </table>
+  
+        </div>
+  </div>
+{% endblock %}
+
+

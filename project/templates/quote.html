@@ -1,0 +1,29 @@
+<!-- templates/login.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<script>
+ function qoute (){
+    fetch('https://api.quotable.io/random')
+    .then(response => response.json())
+    .then(data => {
+      str =`${data.content} —${data.author}`
+      document.querySelector('.content p').innerHTML = str;
+  })
+}
+</script>
+<div class="column is-6 is-offset-3">
+    <div class="content">
+        <p class="h4 text-primary"></p>
+        <p id="quoteGenius"></p>
+      </div>
+</div> 
+<div class="column is-4 is-offset-4">
+  <div class="box">
+    <button class="button is-block is-info is-fullwidth" onclick="qoute();">Get me a quote</button>
+  </div>
+</div>
+
+{% endblock %}
